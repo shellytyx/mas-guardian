@@ -161,7 +161,14 @@ function buildSystemPrompt(context: {
 
 export const llmClient: LLMClient = {
   async ask(context) {
-    const apiKey = import.meta.env.VITE_DEEPSEEK_API_KEY as string | undefined
+    // 通用 OpenAI 兼容格式，默认 Moonshot/Kimi，可切 DeepSeek 等
+    const apiKey =
+      (import.meta.env.VITE_LLM_API_KEY as string | undefined) ??
+      (import.meta.env.VITE_DEEPSEEK_API_KEY as string | undefined)
+    const baseUrl =
+      (import.meta.env.VITE_LLM_BASE_URL as string | undefined) ?? 'https://api.moonshot.cn/v1'
+    const model = (import.meta.env.VITE_LLM_MODEL as string | undefined) ?? 'kimi-k3'
+
     if (!apiKey) {
       // 未配置 key 时用本地规则回答
       const { generateLocalAnswer } = await import('./llmAnswer')
@@ -171,14 +178,14 @@ export const llmClient: LLMClient = {
       const latestResearch = await fetchLatestResearch()
       const knowledge = context.knowledge ?? (await knowledgeClient.search(context.question))
       const systemPrompt = buildSystemPrompt({ ...context, knowledge, latestResearch })
-      const res = await fetch('https://api.deepseek.com/chat/completions', {
+      const res = await fetch(`${baseUrl.replace(/\/$/, '')}/chat/completions`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${apiKey}`,
         },
         body: JSON.stringify({
-          model: 'deepseek-chat',
+          model,
           messages: [
             { role: 'system', content: systemPrompt },
             { role: 'user', content: context.question },
@@ -187,7 +194,7 @@ export const llmClient: LLMClient = {
           max_tokens: 300,
         }),
       })
-      if (!res.ok) throw new Error(`DeepSeek ${res.status}`)
+      if (!res.ok) throw new Error(`LLM ${res.status}`)
       const data = await res.json()
       return data.choices?.[0]?.message?.content?.trim() ?? '（无回答）'
     } catch {
