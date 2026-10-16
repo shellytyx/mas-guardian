@@ -1,5 +1,6 @@
 import type { RiskLevel } from '../types'
 import { LEVEL_META } from '../lib/engine'
+import { IcoChevron } from './Ico'
 
 const POS: Record<string, number> = { green: 8, yellow: 36, orange: 64, red: 90, gray: 8 }
 
@@ -23,7 +24,7 @@ export function RiskBar({ level, headline, onClick }: Props) {
           {meta?.label ?? '数据不足'}
         </span>
         <span className="riskbar-headline">{headline}</span>
-        {onClick && <span className="riskbar-more">详情 ›</span>}
+        {onClick && <span className="riskbar-more">详情 <IcoChevron size={13} /></span>}
       </div>
     </button>
   )

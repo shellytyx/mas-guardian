@@ -4,6 +4,7 @@ import { RiskBar } from '../components/RiskBar'
 import { RiskPositionChart } from '../components/RiskPositionChart'
 import { SparkCard } from '../components/SparkCard'
 import { LEVEL_META, lastFeverRunDays } from '../lib/engine'
+import { IcoThermo, IcoClock, IcoCamera, IcoPencil, IcoCheck, IcoAlert, IcoChevron, HeartHero } from '../components/Ico'
 import type { IndicatorKey } from '../types'
 
 const TOP3: IndicatorKey[] = ['SF', 'PLT', 'AST']
@@ -58,6 +59,7 @@ export function Home() {
           </div>
           <div className="home-dx">{sjiaLabel}</div>
         </div>
+        <HeartHero className="home-hero-ico" />
       </header>
 
       <RiskBar
@@ -80,7 +82,7 @@ export function Home() {
 
       {feverDays > 0 && (
         <div className="card warn-card">
-          <span className="warn-ico">🌡</span>
+          <span className="warn-ico"><IcoThermo size={22} /></span>
           <div>
             <div className="warn-title">已连续发热 {feverDays} 天</div>
             <div className="warn-sub">发热是需要记录的客观指标，用体温计测一下更准确</div>
@@ -93,7 +95,7 @@ export function Home() {
 
       {!stale && daysSinceLab >= 14 && (
         <div className="card remind-card">
-          <span className="remind-ico">⏰</span>
+          <span className="remind-ico"><IcoClock size={20} /></span>
           <div>
             <div className="remind-title">距上次化验 {daysSinceLab} 天</div>
             <div className="remind-sub">按以往节奏该复查了（提醒可关闭，不强制）</div>
@@ -103,10 +105,10 @@ export function Home() {
 
       <div className="action-row">
         <button className="btn-primary" onClick={() => navigate({ name: 'capture' })}>
-          <span className="btn-ico">📷</span>拍化验单
+          <span className="btn-ico"><IcoCamera size={19} /></span>拍化验单
         </button>
         <button className="btn-secondary" onClick={() => navigate({ name: 'entry' })}>
-          <span className="btn-ico">✏️</span>手动补录
+          <span className="btn-ico"><IcoPencil size={19} /></span>手动补录
         </button>
       </div>
 
@@ -122,7 +124,7 @@ export function Home() {
           <span>
             今日体温 未记录
             <button className="btn-link" onClick={() => setTempInput('open')}>
-              记一下 ▸
+              记一下 <IcoChevron size={13} />
             </button>
           </span>
         )}
@@ -145,15 +147,19 @@ export function Home() {
           最近记录：{subjective}
         </div>
       )}
-      {noteSaved && <div className="note-saved-tip">✓ 已保存（仅供参考，不影响风险评估）</div>}
+      {noteSaved && (
+        <div className="note-saved-tip">
+          <IcoCheck size={14} /> 已保存（仅供参考，不影响风险评估）
+        </div>
+      )}
 
       <button className="detail-link" onClick={() => navigate({ name: 'detail' })}>
-        ▸ 查看详细数据
+        <IcoChevron size={14} /> 查看详细数据
       </button>
 
       {mismatchTip && (
         <div className="card mismatch-card" onClick={() => navigate({ name: 'alert' })}>
-          <div className="mismatch-title">⚠ 值得注意</div>
+          <div className="mismatch-title"><IcoAlert size={16} /> 值得注意</div>
           <div className="mismatch-body">
             检验指标在恶化，但孩子近期感觉尚可——这类情况最容易被当成“没事”而延误，请仍以指标为准尽快就医。
           </div>

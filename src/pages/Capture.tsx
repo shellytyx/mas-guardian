@@ -5,6 +5,7 @@ import type { IndicatorKey } from '../types'
 import { today } from '../data/mock'
 import { parseOcrText } from '../lib/ocrParser'
 import Tesseract from 'tesseract.js'
+import { IcoBack, IcoCamera, IcoCheck, IcoClose, IcoInfo } from '../components/Ico'
 
 type Phase = 'upload' | 'recognizing' | 'confirm'
 
@@ -88,7 +89,7 @@ export function Capture() {
       <div className="page">
         <header className="page-head">
           <button className="back" onClick={() => navigate({ name: 'home' })}>
-            ‹ 返回
+            <IcoBack size={15} /> 返回
           </button>
           <span>拍化验单</span>
         </header>
@@ -103,7 +104,7 @@ export function Capture() {
             if (f) handleFile(f)
           }}
         >
-          <div className="drop-icon">📷</div>
+          <div className="drop-icon"><IcoCamera size={46} /></div>
           <div className="drop-title">点击选择或拖入化验单照片</div>
           <div className="drop-hint">支持中文 / 英文检验报告 · 自动识别铁蛋白、血小板、AST 等指标</div>
           <input
@@ -166,7 +167,7 @@ export function Capture() {
     <div className="page">
       <header className="page-head">
         <button className="back" onClick={() => navigate({ name: 'home' })}>
-          ‹ 返回
+          <IcoBack size={15} /> 返回
         </button>
         <span>确认识别结果</span>
       </header>
@@ -230,7 +231,7 @@ export function Capture() {
                       className={`ocr-check ${it.accepted ? 'checked' : ''}`}
                       onClick={() => toggle(it.key)}
                     >
-                      {it.accepted ? '✓' : '✕'}
+                      {it.accepted ? <IcoCheck size={17} /> : <IcoClose size={17} />}
                     </button>
                   </li>
                 )
@@ -242,7 +243,7 @@ export function Capture() {
 
       {existing && items.length > 0 && (
         <div className="card warn-card">
-          <span className="warn-ico">ℹ</span>
+          <span className="warn-ico"><IcoInfo size={20} /></span>
           <div>
             <div className="warn-title">今天已有一条记录</div>
             <div className="warn-sub">再保存会覆盖今天的记录</div>

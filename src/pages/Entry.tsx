@@ -3,6 +3,7 @@ import { useStore } from '../lib/store'
 import { INDICATORS } from '../types'
 import type { IndicatorKey } from '../types'
 import { today } from '../data/mock'
+import { IcoBack, IcoAlert, IcoCheck, IcoChevron } from '../components/Ico'
 
 const PACKAGES: Record<string, IndicatorKey[]> = {
   小套: ['SF', 'PLT', 'AST', 'FIB'],
@@ -67,7 +68,7 @@ export function Entry() {
     <div className="page">
       <header className="page-head">
         <button className="back" onClick={() => (idx > 0 ? setIdx(idx - 1) : navigate({ name: 'home' }))}>
-          ‹ 返回
+          <IcoBack size={15} /> 返回
         </button>
         <span>手动补录</span>
         <span className="pkg-progress">
@@ -122,7 +123,7 @@ export function Entry() {
         </div>
         {deltaPct != null && Math.abs(deltaPct) >= 10 && (
           <div className={`wz-delta ${worse ? 'bad' : 'good'}`}>
-            {worse ? '⚠ ' : '✓ '}
+            {worse ? <IcoAlert size={14} /> : <IcoCheck size={14} />}
             比上次{meta.badDirection === 'up' ? (deltaPct > 0 ? '升高' : '降低') : deltaPct > 0 ? '升高' : '降低'}{' '}
             {Math.abs(deltaPct)}%
           </div>
@@ -134,7 +135,7 @@ export function Entry() {
           本次未测，跳过
         </button>
         <button className="btn-primary btn-big" onClick={next}>
-          {idx < keys.length - 1 ? '下一项 ▸' : saving ? '保存中…' : '完成，查看风险'}
+          {idx < keys.length - 1 ? <>下一项 <IcoChevron size={14} /></> : saving ? '保存中…' : '完成，查看风险'}
         </button>
       </div>
 

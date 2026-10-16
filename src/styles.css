@@ -3,14 +3,17 @@
   --yellow: #ca8a04;
   --orange: #ea580c;
   --red: #dc2626;
-  --blue: #2563eb;
-  --ink: #0f172a;
-  --ink-2: #475569;
-  --ink-3: #94a3b8;
-  --line: #e2e8f0;
-  --bg: #f6f8fa;
+  --blue: #4a7cf0;
+  --blue-soft: #e3eeff;
+  --coral: #ff8a8a;
+  --coral-soft: #ffecec;
+  --ink: #26324b;
+  --ink-2: #55617a;
+  --ink-3: #98a3b8;
+  --line: #e4ebf5;
+  --bg: #eef4fc;
   --card: #ffffff;
-  --radius: 16px;
+  --radius: 20px;
 }
 
 * {
@@ -73,6 +76,9 @@ button {
   color: var(--blue);
   font-weight: 500;
   padding: 4px 2px;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
 }
 
 .page-head > span:nth-child(2) {
@@ -84,6 +90,12 @@ button {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 12px;
+}
+
+.home-hero-ico {
+  width: 54px;
+  height: 54px;
+  flex-shrink: 0;
 }
 
 .home-name {
@@ -101,7 +113,7 @@ button {
   border-radius: var(--radius);
   padding: 14px;
   margin-bottom: 12px;
-  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
+  box-shadow: 0 3px 12px rgba(74, 124, 240, 0.08);
 }
 
 /* ---------- RiskBar ---------- */
@@ -173,6 +185,20 @@ button {
   font-size: 12px;
   color: var(--blue);
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.chev-down {
+  transform: rotate(90deg);
+}
+
+.stage-header .stage-badge,
+.photo-arch {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
 }
 
 /* ---------- Risk position chart ---------- */
@@ -301,7 +327,21 @@ button {
 
 .warn-ico,
 .remind-ico {
-  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 14px;
+  flex-shrink: 0;
+}
+
+.warn-ico {
+  background: var(--coral-soft);
+}
+
+.remind-ico {
+  background: var(--blue-soft);
 }
 
 .warn-title,
@@ -338,9 +378,9 @@ button {
 }
 
 .btn-primary {
-  background: var(--blue);
+  background: linear-gradient(135deg, #6c9cf5, #4a7cf0);
   color: #fff;
-  border-radius: 14px;
+  border-radius: 16px;
   font-size: 15.5px;
   font-weight: 700;
   padding: 15px 18px;
@@ -349,7 +389,7 @@ button {
   align-items: center;
   justify-content: center;
   gap: 7px;
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+  box-shadow: 0 6px 16px rgba(74, 124, 240, 0.3);
   transition: transform 0.1s;
 }
 
@@ -362,9 +402,9 @@ button {
 }
 
 .btn-secondary {
-  background: #eef2f7;
-  color: var(--ink);
-  border-radius: 14px;
+  background: var(--blue-soft);
+  color: var(--blue);
+  border-radius: 16px;
   font-size: 14.5px;
   font-weight: 600;
   padding: 15px 18px;
@@ -380,7 +420,8 @@ button {
 }
 
 .btn-ico {
-  font-size: 17px;
+  display: flex;
+  align-items: center;
 }
 
 .btn-link {
@@ -394,9 +435,11 @@ button {
 }
 
 .detail-link {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
   width: 100%;
-  text-align: center;
   padding: 13px;
   color: var(--blue);
   font-weight: 600;
@@ -422,12 +465,69 @@ button {
   line-height: 1.7;
 }
 
+.note-input-area {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.note-input-field {
+  flex: 1;
+  min-width: 0;
+  border: 1.5px solid var(--line);
+  background: var(--card);
+  border-radius: 14px;
+  padding: 12px 14px;
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--ink);
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.note-input-field:focus {
+  border-color: var(--blue);
+}
+
+.note-input-field::placeholder {
+  color: var(--ink-3);
+}
+
+.note-save-btn {
+  padding: 0 18px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #6c9cf5, #4a7cf0);
+  color: #fff;
+  font-weight: 700;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.note-save-btn:disabled {
+  opacity: 0.45;
+}
+
+.note-saved-tip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  color: var(--blue);
+  background: var(--blue-soft);
+  border-radius: 12px;
+  padding: 8px 12px;
+  margin-bottom: 10px;
+}
+
 .mismatch-card {
   background: #fff7ed;
   border: 1px solid #fed7aa;
 }
 
 .mismatch-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   color: var(--orange);
   font-weight: 700;
   margin-bottom: 4px;
@@ -665,17 +765,16 @@ button {
 }
 
 .nav-center .nav-plus {
-  width: 44px;
-  height: 44px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
-  background: var(--blue);
+  background: linear-gradient(135deg, #6c9cf5, #4a7cf0);
   color: #fff;
-  font-size: 26px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: -26px;
-  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
+  margin-top: -28px;
+  box-shadow: 0 8px 18px rgba(74, 124, 240, 0.4);
 }
 
 /* ---------- capture ---------- */
@@ -696,7 +795,8 @@ button {
 }
 
 .drop-icon {
-  font-size: 36px;
+  display: flex;
+  justify-content: center;
   margin-bottom: 10px;
 }
 
@@ -917,6 +1017,9 @@ button {
   color: var(--ink-3);
   font-weight: 700;
   font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .ocr-check.checked {
@@ -1026,6 +1129,9 @@ button {
   font-weight: 700;
   padding: 9px;
   border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .wz-delta.bad {

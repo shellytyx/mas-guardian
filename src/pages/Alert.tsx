@@ -3,6 +3,7 @@ import { useStore } from '../lib/store'
 import { RiskBar } from '../components/RiskBar'
 import { evidenceOf } from '../lib/evidence'
 import { LEVEL_META, proximityScore } from '../lib/engine'
+import { IcoBack, IcoChevron, IcoCheck, IcoAlert, IcoInfo, IcoClose } from '../components/Ico'
 
 export function Alert() {
   const { navigate, risk, checks, visits, patient, stageWarnings } = useStore()
@@ -53,7 +54,7 @@ export function Alert() {
     <div className="page">
       <header className="page-head">
         <button className="back" onClick={() => navigate({ name: 'home' })}>
-          ‹ 返回
+          <IcoBack size={15} /> 返回
         </button>
         <span>预警详情</span>
         <span className="alert-date">{risk.updatedAt}</span>
@@ -93,7 +94,7 @@ export function Alert() {
             {risk.reasons.map((r, i) => (
               <li key={i} className={`sev-${r.severity}`}>
                 <span className="reason-mark">
-                  {r.severity === 'red' ? '✕' : r.severity === 'orange' ? '!' : '~'}
+                  {r.severity === 'red' ? <IcoClose size={16} /> : r.severity === 'orange' ? <IcoAlert size={16} /> : <IcoInfo size={16} />}
                 </span>
                 <div>
                   <div className="reason-text">{r.text}</div>
@@ -101,7 +102,7 @@ export function Alert() {
                     className="cite-toggle"
                     onClick={() => setOpenRule(openRule === r.ruleId ? null : r.ruleId)}
                   >
-                    {openRule === r.ruleId ? '收起依据 ▴' : '查看依据 ▸'}
+                    {openRule === r.ruleId ? <>收起依据 <IcoChevron size={12} className="chev-down" /></> : <>查看依据 <IcoChevron size={12} /></>}
                   </button>
                   {openRule === r.ruleId && evidenceOf(r.ruleId) && (
                     <div className="cite-panel">
@@ -124,7 +125,7 @@ export function Alert() {
             <div className="score-label">2016 分类标准</div>
             <div className="score-value">{risk.criteria2016.met ? '已满足' : '未满足'}</div>
             <div className="score-sub">
-              铁蛋白{risk.criteria2016.ferritinOk ? '>684 ✓' : '未超'} · 其他 {risk.criteria2016.hits.length}/4 项
+              铁蛋白{risk.criteria2016.ferritinOk ? <>684 以上 <IcoCheck size={13} /></> : '未超'} · 其他 {risk.criteria2016.hits.length}/4 项
             </div>
           </div>
           <div className={`score-item ${risk.msPositive ? 'bad' : ''}`}>
@@ -147,7 +148,7 @@ export function Alert() {
 
       {mismatch && (
         <div className="card mismatch-card">
-          <div className="mismatch-title">⚠ 值得注意</div>
+          <div className="mismatch-title"><IcoAlert size={16} /> 值得注意</div>
           <div className="mismatch-body">
             检验指标在{meta.label === '高危' ? '持续恶化' : '恶化'}，但孩子近期感觉尚可（“{subjective}”）——这类情况最容易被当成“没事”而延误，请仍以指标为准尽快就医。
           </div>

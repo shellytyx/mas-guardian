@@ -4,6 +4,7 @@ import { EChart } from '../components/EChart'
 import { TrendBadge } from '../components/TrendBadge'
 import { INDICATORS } from '../types'
 import type { EChartsOption } from 'echarts'
+import { IcoBack, IcoPhoto } from '../components/Ico'
 
 type Range = 7 | 30 | 9999
 
@@ -40,7 +41,7 @@ export function Detail() {
     <div className="page">
       <header className="page-head">
         <button className="back" onClick={() => navigate({ name: 'home' })}>
-          ‹ 返回
+          <IcoBack size={15} /> 返回
         </button>
         <span>详细数据</span>
         <span className="range-switch">
@@ -182,7 +183,11 @@ export function Detail() {
       <details className="note-strip card">
         <summary>最近一次化验的原始单据存档</summary>
         <div className="note-body">
-          {sorted.at(-1)?.rawPhoto ? '📷 有原图存档（接入后端后可点击查看）' : '本条为手动录入，无原图'}
+          {sorted.at(-1)?.rawPhoto ? (
+            <span className="photo-arch"><IcoPhoto size={15} /> 有原图存档（接入后端后可点击查看）</span>
+          ) : (
+            '本条为手动录入，无原图'
+          )}
         </div>
       </details>
     </div>
