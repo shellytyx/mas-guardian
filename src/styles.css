@@ -888,6 +888,13 @@ button {
   gap: 8px;
 }
 
+.ai-disclaimer {
+  font-size: 11px;
+  color: var(--ink-3);
+  text-align: center;
+  margin-top: 8px;
+}
+
 .score-row {
   display: flex;
   gap: 8px;

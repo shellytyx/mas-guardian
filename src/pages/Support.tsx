@@ -141,6 +141,7 @@ export function Support() {
             <div className="ai-msg ai">正在结合你的指标和预警等级思考…</div>
           )}
         </div>
+        <div className="ai-disclaimer">AI 建议仅供参考，具体诊疗请遵医嘱。</div>
         <div className="ai-input-row">
           <input
             className="note-input-field"
