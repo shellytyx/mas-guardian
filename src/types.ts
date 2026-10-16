@@ -75,3 +75,4 @@ export type Page =
   | { name: 'capture' }
   | { name: 'entry' }
   | { name: 'compare' }
+  | { name: 'warm' }

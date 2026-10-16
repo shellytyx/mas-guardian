@@ -12,6 +12,8 @@ export function Home() {
   const { patient, visits, checks, risk, navigate, addCheck } = useStore()
   const [tempInput, setTempInput] = useState<string | null>(null)
   const [tempVal, setTempVal] = useState('38.5')
+  const [noteInput, setNoteInput] = useState('')
+  const [noteSaved, setNoteSaved] = useState(false)
 
   if (!risk || !patient) return <div className="page-loading">加载中…</div>
 
@@ -31,9 +33,6 @@ export function Home() {
 
   const mismatchTip =
     risk.level !== 'green' && subjective && /开心|好|不错|好玩/.test(subjective)
-
-  const [noteInput, setNoteInput] = useState('')
-  const [noteSaved, setNoteSaved] = useState(false)
 
   const saveNote = async () => {
     if (!noteInput.trim()) return
