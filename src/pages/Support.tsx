@@ -2,19 +2,16 @@ import { useState } from 'react'
 import { useStore } from '../lib/store'
 import { adviceFor, LEVEL_META, proximityScore } from '../lib/engine'
 import { evidenceOf } from '../lib/evidence'
+import { llmClient, consultClient } from '../lib/api'
 import { IcoChevron, IcoAlert, IcoCheck, IcoInfo, IcoClose } from '../components/Ico'
-
-const AI_REPLIES: Record<string, string> = {
-  default:
-    '我理解你的担心。请以应用里的客观指标和预警分级为准：如果达到橙色或红色，请今天内联系主治医生。也可以把化验单拍下来，让我帮你看看指标趋势。',
-}
 
 export function Support() {
   const { navigate, risk, visits, checks, patient } = useStore()
   const [openRule, setOpenRule] = useState<string | null>(null)
   const [askInput, setAskInput] = useState('')
   const [chat, setChat] = useState<{ role: 'me' | 'ai'; text: string }[]>([])
-  const [consultDone, setConsultDone] = useState(false)
+  const [chatLoading, setChatLoading] = useState(false)
+  const [consultMsg, setConsultMsg] = useState<string | null>(null)
 
   if (!risk) return <div className="page-loading">加载中…</div>
 
@@ -22,11 +19,39 @@ export function Support() {
   const advice = adviceFor(risk.level)
   const prox = proximityScore([...visits].sort((a, b) => a.date.localeCompare(b.date)).at(-1), checks, patient?.sjiaStatus)
 
-  const ask = () => {
+  const ask = async () => {
     const q = askInput.trim()
-    if (!q) return
-    setChat((c) => [...c, { role: 'me', text: q }, { role: 'ai', text: AI_REPLIES.default }])
+    if (!q || chatLoading) return
+    setChat((c) => [...c, { role: 'me', text: q }])
     setAskInput('')
+    setChatLoading(true)
+    try {
+      const answer = await llmClient.ask({
+        question: q,
+        risk,
+        latestVisit: [...visits].sort((a, b) => a.date.localeCompare(b.date)).at(-1),
+        subjective: [...checks].reverse().find((c) => c.subjective)?.subjective,
+      })
+      setChat((c) => [...c, { role: 'ai', text: answer }])
+    } catch {
+      setChat((c) => [...c, { role: 'ai', text: '回答生成失败，请稍后再试。' }])
+    } finally {
+      setChatLoading(false)
+    }
+  }
+
+  const requestConsult = async () => {
+    setConsultMsg('正在连接医生…')
+    try {
+      const res = await consultClient.request({
+        reason: risk.headline,
+        urgency: advice.urgency,
+        snapshot: { level: risk.level, msScore: risk.msScore, criteria2016: risk.criteria2016 },
+      })
+      setConsultMsg(res.message + (res.url ? `，链接：${res.url}` : ''))
+    } catch {
+      setConsultMsg('连接失败，请稍后再试')
+    }
   }
 
   return (
@@ -45,9 +70,12 @@ export function Support() {
         <div className="urgency-dept">
           建议就诊科室：<b>{advice.department}</b>
         </div>
-        <button className="btn-consult" onClick={() => setConsultDone(true)}>
-          线上问诊 · 联系医生{consultDone ? '（接入后端后开放）' : ''}
+        <button className="btn-consult" onClick={requestConsult} disabled={consultMsg !== null && consultMsg !== '正在连接医生…'}>
+          线上问诊 · 联系医生
         </button>
+        {consultMsg && (
+          <div className="consult-msg">{consultMsg}</div>
+        )}
       </section>
 
       <section className="card">
@@ -102,6 +130,9 @@ export function Support() {
               {m.text}
             </div>
           ))}
+          {chatLoading && (
+            <div className="ai-msg ai">正在结合你的指标和预警等级思考…</div>
+          )}
         </div>
         <div className="ai-input-row">
           <input
