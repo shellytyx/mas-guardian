@@ -1,19 +1,19 @@
 :root {
-  --green: #16a34a;
-  --yellow: #ca8a04;
-  --orange: #ea580c;
-  --red: #dc2626;
-  --blue: #4a7cf0;
-  --blue-soft: #e3eeff;
-  --coral: #ff8a8a;
-  --coral-soft: #ffecec;
-  --ink: #26324b;
-  --ink-2: #55617a;
-  --ink-3: #98a3b8;
-  --line: #e4ebf5;
-  --bg: #eef4fc;
+  --green: #1a7f37;
+  --yellow: #9a6700;
+  --orange: #cf4b00;
+  --red: #cf222e;
+  --blue: #0969da;
+  --blue-soft: #ddf4ff;
+  --coral: #cf4b00;
+  --coral-soft: #fff1e5;
+  --ink: #24292f;
+  --ink-2: #57606a;
+  --ink-3: #8c959f;
+  --line: #d0d7de;
+  --bg: #f6f8fa;
   --card: #ffffff;
-  --radius: 20px;
+  --radius: 12px;
 }
 
 * {
@@ -111,9 +111,10 @@ button {
 .card {
   background: var(--card);
   border-radius: var(--radius);
-  padding: 14px;
-  margin-bottom: 12px;
-  box-shadow: 0 3px 12px rgba(74, 124, 240, 0.08);
+  border: 1px solid var(--line);
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: none;
 }
 
 /* ---------- RiskBar ---------- */
@@ -122,55 +123,35 @@ button {
   width: 100%;
   background: var(--card);
   border-radius: var(--radius);
-  padding: 14px;
-  margin-bottom: 14px;
-  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+  border: 1px solid var(--line);
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: none;
   text-align: left;
 }
 
 .riskbar-track {
   position: relative;
-  height: 12px;
-  border-radius: 6px;
-  background: linear-gradient(90deg, #22c55e 0%, #eab308 38%, #f97316 68%, #dc2626 100%);
+  height: 10px;
+  border-radius: 5px;
+  background: linear-gradient(90deg, #1a7f37 0%, #9a6700 38%, #cf4b00 68%, #cf222e 100%);
   margin-bottom: 12px;
-}
-
-.riskbar.red .riskbar-track {
-  animation: pulse 1.8s ease-in-out infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.72; }
-}
-
-.riskbar-cursor {
-  position: absolute;
-  top: 50%;
-  transform: translate(-50%, -50%);
 }
 
 .riskbar-dot {
   display: block;
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
   background: #fff;
-  border: 3.5px solid var(--ink);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
-}
-
-.riskbar-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  border: 2.5px solid var(--ink);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .riskbar-level {
   font-size: 12px;
   font-weight: 700;
-  padding: 2px 8px;
+  padding: 2px 9px;
   border-radius: 999px;
   flex-shrink: 0;
 }
@@ -179,11 +160,12 @@ button {
   font-size: 14px;
   font-weight: 600;
   flex: 1;
+  color: var(--ink-2);
 }
 
 .riskbar-more {
   font-size: 12px;
-  color: var(--blue);
+  color: var(--ink-3);
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -337,11 +319,13 @@ button {
 }
 
 .warn-ico {
-  background: var(--coral-soft);
+  background: #fff6f5;
+  border: 1px solid #ffc6c0;
 }
 
 .remind-ico {
-  background: var(--blue-soft);
+  background: var(--bg);
+  border: 1px solid var(--line);
 }
 
 .warn-title,
@@ -358,12 +342,13 @@ button {
 
 .btn-mini {
   margin-left: auto;
-  background: var(--blue);
-  color: #fff;
+  background: var(--bg);
+  color: var(--ink);
+  border: 1px solid var(--line);
   font-size: 12.5px;
   font-weight: 600;
   padding: 7px 12px;
-  border-radius: 999px;
+  border-radius: 8px;
   flex-shrink: 0;
 }
 
@@ -378,23 +363,25 @@ button {
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #6c9cf5, #4a7cf0);
+  background: var(--green);
   color: #fff;
-  border-radius: 16px;
-  font-size: 15.5px;
-  font-weight: 700;
-  padding: 15px 18px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 12px 16px;
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 7px;
-  box-shadow: 0 6px 16px rgba(74, 124, 240, 0.3);
+  box-shadow: none;
+  border: 1px solid rgba(27, 31, 36, 0.15);
   transition: transform 0.1s;
 }
 
 .btn-primary:active {
-  transform: scale(0.98);
+  transform: none;
+  opacity: 0.92;
 }
 
 .btn-primary:disabled {
@@ -402,12 +389,13 @@ button {
 }
 
 .btn-secondary {
-  background: var(--blue-soft);
-  color: var(--blue);
-  border-radius: 16px;
-  font-size: 14.5px;
+  background: var(--bg);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  font-size: 15px;
   font-weight: 600;
-  padding: 15px 18px;
+  padding: 12px 16px;
   flex: 1;
   display: flex;
   align-items: center;
@@ -474,19 +462,20 @@ button {
 .note-input-field {
   flex: 1;
   min-width: 0;
-  border: 1.5px solid var(--line);
-  background: var(--card);
-  border-radius: 14px;
-  padding: 12px 14px;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  border-radius: 8px;
+  padding: 10px 12px;
   font-size: 14px;
   font-family: inherit;
   color: var(--ink);
   outline: none;
-  transition: border-color 0.15s;
+  transition: border-color 0.15s, background 0.15s;
 }
 
 .note-input-field:focus {
   border-color: var(--blue);
+  background: var(--card);
 }
 
 .note-input-field::placeholder {
@@ -494,17 +483,18 @@ button {
 }
 
 .note-save-btn {
-  padding: 0 18px;
-  border-radius: 14px;
-  background: linear-gradient(135deg, #6c9cf5, #4a7cf0);
+  padding: 0 16px;
+  border-radius: 8px;
+  background: var(--green);
   color: #fff;
-  font-weight: 700;
+  font-weight: 600;
   font-size: 14px;
   flex-shrink: 0;
+  border: 1px solid rgba(27, 31, 36, 0.15);
 }
 
 .note-save-btn:disabled {
-  opacity: 0.45;
+  opacity: 0.5;
 }
 
 .note-saved-tip {
@@ -512,9 +502,10 @@ button {
   align-items: center;
   gap: 6px;
   font-size: 12.5px;
-  color: var(--blue);
-  background: var(--blue-soft);
-  border-radius: 12px;
+  color: var(--ink-2);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 8px;
   padding: 8px 12px;
   margin-bottom: 10px;
 }
@@ -760,13 +751,17 @@ button {
 
 .btn-consult {
   width: 100%;
-  padding: 13px;
-  border-radius: 16px;
-  background: linear-gradient(135deg, #ff9d8a, #ff7b6b);
+  padding: 12px;
+  border-radius: 8px;
+  background: var(--green);
   color: #fff;
-  font-weight: 700;
+  font-weight: 600;
   font-size: 14.5px;
-  box-shadow: 0 6px 16px rgba(255, 123, 107, 0.35);
+  border: 1px solid rgba(27, 31, 36, 0.15);
+}
+
+.btn-consult:disabled {
+  opacity: 0.5;
 }
 
 .action-list {
@@ -1033,9 +1028,9 @@ button {
 
 .btn-danger-ghost {
   width: 100%;
-  padding: 11px;
-  border-radius: 14px;
-  border: 1.5px solid #fecaca;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
   color: var(--red);
   font-size: 13.5px;
   font-weight: 600;
@@ -1075,35 +1070,35 @@ button {
 }
 
 .nav-item.active {
-  color: var(--blue);
-  font-weight: 700;
+  color: var(--ink);
+  font-weight: 600;
 }
 
-.nav-icon {
-  font-size: 19px;
-  line-height: 1;
+.nav-icon svg {
+  color: currentColor;
 }
 
 .nav-center .nav-plus {
-  width: 48px;
-  height: 48px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #6c9cf5, #4a7cf0);
+  background: var(--blue);
   color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: -28px;
-  box-shadow: 0 8px 18px rgba(74, 124, 240, 0.4);
+  margin-top: -24px;
+  box-shadow: none;
+  border: 1px solid rgba(27, 31, 36, 0.15);
 }
 
 /* ---------- capture ---------- */
 .dropzone {
-  border: 2px dashed #cbd5e1;
+  border: 2px dashed var(--line);
   border-radius: var(--radius);
   padding: 48px 20px;
   text-align: center;
-  background: #f8fafc;
+  background: var(--bg);
   cursor: pointer;
   margin-bottom: 14px;
   transition: border-color 0.2s;
@@ -1111,7 +1106,7 @@ button {
 
 .dropzone:hover {
   border-color: var(--blue);
-  background: #eff6ff;
+  background: var(--bg);
 }
 
 .drop-icon {
@@ -1330,21 +1325,23 @@ button {
 }
 
 .ocr-check {
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  background: #f1f5f9;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  background: var(--bg);
   color: var(--ink-3);
   font-weight: 700;
   font-size: 15px;
   display: flex;
   align-items: center;
   justify-content: center;
+  border: 1px solid var(--line);
 }
 
 .ocr-check.checked {
   background: var(--green);
   color: #fff;
+  border-color: rgba(27, 31, 36, 0.15);
 }
 
 /* ---------- entry wizard ---------- */

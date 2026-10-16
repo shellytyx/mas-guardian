@@ -60,7 +60,7 @@ export function Support() {
         <span>决策支持</span>
       </header>
 
-      <section className="card urgency-card" style={{ borderLeft: `5px solid ${meta.color}` }}>
+      <section className="card urgency-card">
         <div className="urgency-row">
           <span className="urgency-badge" style={{ background: meta.bg, color: meta.color }}>
             {advice.urgency}

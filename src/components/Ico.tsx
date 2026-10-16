@@ -153,20 +153,12 @@ export function IcoPhoto({ size = 20, className }: IcoProps) {
 export function HeartHero({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 120 120" className={className} aria-hidden>
-      <circle cx="60" cy="60" r="52" fill="#E3EEFF" />
-      <circle cx="60" cy="60" r="52" fill="none" stroke="#C9DDFB" strokeWidth="3" />
-      <path
-        d="M60 88C44 77 32 67 32 54c0-8 6.5-14 14.5-14 5.4 0 10 2.9 13.5 7.6C63.5 42.9 68.1 40 73.5 40 81.5 40 88 46 88 54c0 13-12 23-28 34z"
-        fill="#FF8A8A"
-      />
-      <path d="M44 56.5c0-4.4 3.2-7.5 7.6-7.5 2.6 0 4.8 1.2 6.4 3.4" stroke="#fff" strokeWidth="3" strokeLinecap="round" fill="none" opacity="0.85" />
-      <path d="M20 66h14l4-8 5 15 4-9h13" stroke="#6C9CF5" strokeWidth="3.4" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-      <path d="M74 66h10l3.5-7 4 13 3.5-6H99" stroke="#6C9CF5" strokeWidth="3.4" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-      <rect x="76" y="24" width="16" height="16" rx="4" fill="#fff" stroke="#6C9CF5" strokeWidth="2.4" />
-      <path d="M84 27.5v9M79.5 32h9" stroke="#FF8A8A" strokeWidth="2.6" strokeLinecap="round" />
-      <circle cx="34" cy="34" r="4.5" fill="#FFD1D1" />
-      <circle cx="92" cy="88" r="3.5" fill="#C9DDFB" />
-      <circle cx="26" cy="84" r="2.6" fill="#FFD1D1" />
+      <circle cx="60" cy="60" r="52" fill="#f6f8fa" />
+      <circle cx="60" cy="60" r="52" fill="none" stroke="#d0d7de" strokeWidth="2" />
+      <path d="M60 26c-18 0-34 14-34 34 0 24 34 52 34 52s34-28 34-52c0-20-16-34-34-34z" fill="#fff" stroke="#1a7f37" strokeWidth="3" />
+      <path d="M60 43v14M52 50h16" stroke="#1a7f37" strokeWidth="4" strokeLinecap="round" />
+      <circle cx="94" cy="34" r="4" fill="#0969da" />
+      <circle cx="26" cy="86" r="3" fill="#0969da" />
     </svg>
   )
 }
