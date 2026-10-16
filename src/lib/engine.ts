@@ -323,6 +323,21 @@ export function adviceFor(level: RiskLevel): Advice {
   }
 }
 
+export function riskBarPosition(level: RiskLevel, prox: number): number {
+  // 等级和滑块位置必须一致：等级决定区间，proximityScore 决定区间内位置
+  switch (level) {
+    case 'red':
+      return Math.max(85, Math.min(98, prox))
+    case 'orange':
+      return Math.max(66, Math.min(84, prox))
+    case 'yellow':
+      return Math.max(33, Math.min(65, prox))
+    case 'green':
+    default:
+      return Math.max(2, Math.min(32, prox))
+  }
+}
+
 export function trendBadge(latest: number | undefined, prev: number | undefined, badDirection: 'up' | 'down'):
   | { text: string; tone: 'bad' | 'good' | 'flat' } {
   if (latest == null || prev == null || prev === 0) return { text: '—', tone: 'flat' }

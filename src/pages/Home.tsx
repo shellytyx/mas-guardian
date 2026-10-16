@@ -3,7 +3,7 @@ import { useStore } from '../lib/store'
 import { RiskBar } from '../components/RiskBar'
 import { RiskPositionChart } from '../components/RiskPositionChart'
 import { SparkCard } from '../components/SparkCard'
-import { LEVEL_META, lastFeverRunDays, proximityScore } from '../lib/engine'
+import { LEVEL_META, lastFeverRunDays, proximityScore, riskBarPosition } from '../lib/engine'
 import { IcoThermo, IcoClock, IcoCamera, IcoPencil, IcoCheck, IcoAlert, IcoChevron, HeartHero } from '../components/Ico'
 import type { IndicatorKey } from '../types'
 
@@ -64,7 +64,7 @@ export function Home() {
 
       <RiskBar
         level={stale && risk.level !== 'red' ? 'gray' : risk.level}
-        score={proximityScore(latestVisit, checks, patient?.sjiaStatus)}
+        score={riskBarPosition(risk.level, proximityScore(latestVisit, checks, patient?.sjiaStatus))}
         headline={
           stale && risk.level !== 'red'
             ? `数据超过 ${daysSinceLab} 天未更新，预警可能不准确`

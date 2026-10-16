@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useStore } from '../lib/store'
 import { RiskBar } from '../components/RiskBar'
 import { evidenceOf } from '../lib/evidence'
-import { LEVEL_META, proximityScore } from '../lib/engine'
+import { LEVEL_META, proximityScore, riskBarPosition } from '../lib/engine'
 import { IcoBack, IcoChevron, IcoCheck, IcoAlert, IcoInfo, IcoClose } from '../components/Ico'
 
 export function Alert() {
@@ -15,6 +15,7 @@ export function Alert() {
   const subjective = [...checks].reverse().find((c) => c.subjective)?.subjective
   const mismatch = risk.level !== 'green' && subjective && /开心|好|不错|好玩/.test(subjective)
   const prox = proximityScore([...visits].sort((a, b) => a.date.localeCompare(b.date)).at(-1), checks, patient?.sjiaStatus)
+  const barPos = riskBarPosition(risk.level, prox)
 
   const tips: string[] = []
   if (risk.level === 'red') {
@@ -60,7 +61,7 @@ export function Alert() {
         <span className="alert-date">{risk.updatedAt}</span>
       </header>
 
-      <RiskBar level={risk.level} headline={risk.headline} />
+      <RiskBar level={risk.level} score={barPos} headline={risk.headline} />
 
       {stageWarnings.length > 0 && (
         <section className="card">
