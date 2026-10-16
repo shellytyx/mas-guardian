@@ -25,6 +25,84 @@ export function lastFeverRunDays(checks: DailyCheck[]): number {
   return run
 }
 
+export interface StageWarning {
+  stage: 1 | 2
+  title: string
+  detail: string
+  suggestions: string[]
+}
+
+export function computeStageWarnings(
+  visits: LabVisit[],
+  checks: DailyCheck[],
+  sjiaStatus?: string,
+): StageWarning[] {
+  const warnings: StageWarning[] = []
+  const sorted = [...visits].sort((a, b) => a.date.localeCompare(b.date))
+  const latest = sorted.at(-1)
+  const prev = sorted.at(-2)
+  if (!latest) return warnings
+
+  const v = latest.values
+  const fever = lastFeverRunDays(checks) > 0
+  const sjia = sjiaStatus === 'confirmed' || sjiaStatus === 'suspected'
+
+  const abnormal: string[] = []
+  const suggestions: string[] = []
+
+  if (v.SF != null && v.SF > 300) abnormal.push(`铁蛋白 ${v.SF}`)
+  if (v.PLT != null && v.PLT < 100) abnormal.push(`血小板 ${v.PLT}`)
+  if (v.AST != null && v.AST > 40) abnormal.push(`AST ${v.AST}`)
+  if (v.FIB != null && (v.FIB < 2.0 || v.FIB > 4.0)) abnormal.push(`纤维蛋白原 ${v.FIB}`)
+  if (v.TG != null && v.TG > 1.7) abnormal.push(`甘油三酯 ${v.TG}`)
+  if (v.LDH != null && v.LDH > 250) abnormal.push(`LDH ${v.LDH}`)
+  if (v.ESR != null && v.ESR > 20) abnormal.push(`血沉 ${v.ESR}`)
+
+  if (abnormal.length > 0) {
+    const missing: string[] = []
+    if (v.LDH == null) missing.push('LDH（乳酸脱氢酶）')
+    if (v.ESR == null) missing.push('ESR（血沉）')
+    if (v.FIB == null) missing.push('纤维蛋白原')
+    if (v.TG == null) missing.push('甘油三酯')
+    if (v.PLT == null) missing.push('血小板')
+    if (v.AST == null) missing.push('AST')
+    if (v.SF == null) missing.push('铁蛋白')
+    if (missing.length) suggestions.push(`建议加测：${missing.join('、')}`)
+    suggestions.push(`3-5 天后复查上述异常指标，继续观测变化趋势`)
+    suggestions.push('每日记录体温，发热加重或出现出血点请提前联系医生')
+    warnings.push({
+      stage: 1,
+      title: '指标异常倾向',
+      detail: `${abnormal.join('、')} 超出参考范围`,
+      suggestions,
+    })
+  }
+
+  if (latest && prev) {
+    const pv = prev.values
+    const trendBad: string[] = []
+    if (v.SF != null && pv.SF != null && pctChange(v.SF, pv.SF) >= 0.1) trendBad.push('铁蛋白↑')
+    if (v.PLT != null && pv.PLT != null && pctChange(v.PLT, pv.PLT) <= -0.1) trendBad.push('血小板↓')
+    if (v.AST != null && pv.AST != null && pctChange(v.AST, pv.AST) >= 0.1) trendBad.push('AST↑')
+    if (v.FIB != null && pv.FIB != null && pctChange(v.FIB, pv.FIB) <= -0.1) trendBad.push('纤维蛋白原↓')
+
+    if (trendBad.length >= 2 && fever && sjia) {
+      warnings.push({
+        stage: 2,
+        title: 'MAS 风险预警',
+        detail: `${trendBad.join('、')}，且持续发热 ${lastFeverRunDays(checks)} 天`,
+        suggestions: [
+          '尽快联系主治医生，说明指标变化趋势',
+          '就诊时携带：近 30 天化验单 + 本应用截图',
+          '如孩子出现持续高热、出血点、嗜睡，不要等待',
+        ],
+      })
+    }
+  }
+
+  return warnings
+}
+
 export function computeRisk(visits: LabVisit[], checks: DailyCheck[], sjiaStatus?: string): RiskResult {
   const reasons: Reason[] = []
   const sorted = [...visits].sort((a, b) => a.date.localeCompare(b.date))

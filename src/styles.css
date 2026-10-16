@@ -549,6 +549,85 @@ button {
   font-weight: 700;
 }
 
+/* ---------- stage warnings ---------- */
+.stage-card {
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 10px;
+  border: 1.5px solid;
+}
+
+.stage-card.stage-1 {
+  background: #fffbeb;
+  border-color: #fbbf24;
+}
+
+.stage-card.stage-2 {
+  background: #fef2f2;
+  border-color: #f87171;
+}
+
+.stage-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.stage-badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 999px;
+  color: #fff;
+}
+
+.stage-1 .stage-badge {
+  background: #f59e0b;
+}
+
+.stage-2 .stage-badge {
+  background: #ef4444;
+}
+
+.stage-title {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.stage-1 .stage-title {
+  color: #92400e;
+}
+
+.stage-2 .stage-title {
+  color: #991b1b;
+}
+
+.stage-detail {
+  font-size: 13px;
+  color: var(--ink-2);
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+
+.stage-suggestions-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink-2);
+  margin-bottom: 4px;
+}
+
+.stage-suggestions ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.stage-suggestions li {
+  font-size: 12.5px;
+  color: var(--ink-2);
+  line-height: 1.7;
+}
+
 /* ---------- bottom nav ---------- */
 .bottom-nav {
   position: fixed;
@@ -767,7 +846,14 @@ button {
 .ocr-summary {
   font-size: 13.5px;
   color: var(--ink-2);
+  margin-bottom: 4px;
+}
+
+.ocr-hint {
+  font-size: 12px;
+  color: var(--blue);
   margin-bottom: 8px;
+  font-weight: 500;
 }
 
 .ocr-lowconf {

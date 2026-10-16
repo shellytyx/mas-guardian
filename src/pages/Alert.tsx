@@ -5,7 +5,7 @@ import { evidenceOf } from '../lib/evidence'
 import { LEVEL_META, proximityScore } from '../lib/engine'
 
 export function Alert() {
-  const { navigate, risk, checks, visits, patient } = useStore()
+  const { navigate, risk, checks, visits, patient, stageWarnings } = useStore()
   const [openRule, setOpenRule] = useState<string | null>(null)
 
   if (!risk) return <div className="page-loading">加载中…</div>
@@ -60,6 +60,29 @@ export function Alert() {
       </header>
 
       <RiskBar level={risk.level} headline={risk.headline} />
+
+      {stageWarnings.length > 0 && (
+        <section className="card">
+          <div className="sec-title">分级预警</div>
+          {stageWarnings.map((w, i) => (
+            <div key={i} className={`stage-card stage-${w.stage}`}>
+              <div className="stage-header">
+                <span className="stage-badge">第{w.stage}级</span>
+                <span className="stage-title">{w.title}</span>
+              </div>
+              <div className="stage-detail">{w.detail}</div>
+              <div className="stage-suggestions">
+                <div className="stage-suggestions-label">建议：</div>
+                <ul>
+                  {w.suggestions.map((s: string, j: number) => (
+                    <li key={j}>{s}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          ))}
+        </section>
+      )}
 
       <section className="card">
         <div className="sec-title">为什么发出这个提醒</div>

@@ -2,7 +2,8 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState } 
 import type { ReactNode } from 'react'
 import type { DailyCheck, LabVisit, Page, Patient, RiskResult } from '../types'
 import { api } from './api'
-import { computeRisk } from './engine'
+import { computeRisk, computeStageWarnings } from './engine'
+import type { StageWarning } from './engine'
 
 const PROFILE_KEY = 'mas-guardian-profile'
 
@@ -11,6 +12,7 @@ interface Store {
   visits: LabVisit[]
   checks: DailyCheck[]
   risk: RiskResult | null
+  stageWarnings: StageWarning[]
   page: Page
   navigate(p: Page): void
   refresh(): Promise<void>
@@ -60,6 +62,11 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     [visits, checks, patient],
   )
 
+  const stageWarnings = useMemo(
+    () => (visits.length ? computeStageWarnings(visits, checks, patient?.sjiaStatus) : []),
+    [visits, checks, patient],
+  )
+
   const addVisit = useCallback(
     async (v: Omit<LabVisit, 'id'>) => {
       await api.saveVisit(v)
@@ -91,6 +98,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     visits,
     checks,
     risk,
+    stageWarnings,
     page,
     navigate: setPage,
     refresh,

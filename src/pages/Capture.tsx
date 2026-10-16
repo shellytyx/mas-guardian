@@ -203,6 +203,7 @@ export function Capture() {
             <div className="ocr-summary">
               识别到 {items.length} 项指标，请核对：
             </div>
+            <div className="ocr-hint">点击数值可直接修改，确认无误后保存</div>
             <ul className="ocr-list">
               {items.map((it) => {
                 const meta = INDICATORS[it.key]
