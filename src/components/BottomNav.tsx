@@ -25,20 +25,6 @@ export function BottomNav() {
         <span className="nav-icon">▤</span>
         <span>数据</span>
       </button>
-      <button
-        className={`nav-item ${page.name === 'compare' ? 'active' : ''}`}
-        onClick={() => navigate({ name: 'compare' })}
-      >
-        <span className="nav-icon">◈</span>
-        <span>对比</span>
-      </button>
-      <button
-        className={`nav-item ${page.name === 'warm' ? 'active' : ''}`}
-        onClick={() => navigate({ name: 'warm' })}
-      >
-        <span className="nav-icon">☀</span>
-        <span>暖色</span>
-      </button>
     </nav>
   )
 }

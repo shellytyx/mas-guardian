@@ -74,5 +74,3 @@ export type Page =
   | { name: 'alert' }
   | { name: 'capture' }
   | { name: 'entry' }
-  | { name: 'compare' }
-  | { name: 'warm' }

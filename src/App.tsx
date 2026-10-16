@@ -7,9 +7,6 @@ import { Detail } from './pages/Detail'
 import { Alert } from './pages/Alert'
 import { Onboarding } from './pages/Onboarding'
 
-import { Compare } from './pages/Compare'
-import { WarmTheme } from './pages/WarmTheme'
-
 function Router() {
   const { page } = useStore()
   return (
@@ -20,8 +17,6 @@ function Router() {
         {page.name === 'entry' && <Entry />}
         {page.name === 'detail' && <Detail />}
         {page.name === 'alert' && <Alert />}
-        {page.name === 'compare' && <Compare />}
-        {page.name === 'warm' && <WarmTheme />}
         {page.name === 'home' && <Home />}
       </main>
       {page.name !== 'onboarding' && <BottomNav />}
