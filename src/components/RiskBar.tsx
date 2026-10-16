@@ -2,20 +2,22 @@ import type { RiskLevel } from '../types'
 import { LEVEL_META } from '../lib/engine'
 import { IcoChevron } from './Ico'
 
-const POS: Record<string, number> = { green: 8, yellow: 36, orange: 64, red: 90, gray: 8 }
+const FALLBACK_POS: Record<string, number> = { green: 8, yellow: 36, orange: 64, red: 90, gray: 8 }
 
 interface Props {
   level: RiskLevel
+  score?: number
   headline: string
   onClick?: () => void
 }
 
-export function RiskBar({ level, headline, onClick }: Props) {
+export function RiskBar({ level, score, headline, onClick }: Props) {
   const meta = level === 'gray' ? null : LEVEL_META[level]
+  const pos = score != null ? Math.max(2, Math.min(98, score)) : (FALLBACK_POS[level] ?? 8)
   return (
     <button className={`riskbar ${level}`} onClick={onClick}>
       <div className="riskbar-track">
-        <div className="riskbar-cursor" style={{ left: `${POS[level] ?? 8}%` }}>
+        <div className="riskbar-cursor" style={{ left: `${pos}%` }}>
           <span className="riskbar-dot" />
         </div>
       </div>
