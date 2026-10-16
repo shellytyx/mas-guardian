@@ -1043,6 +1043,27 @@ button {
   background: #fffafa;
 }
 
+.mode-tag {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 999px;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+.mode-tag.live {
+  background: #dafbe1;
+  color: #1a7f37;
+  border: 1px solid rgba(31, 35, 40, 0.15);
+}
+
+.mode-tag.local {
+  background: var(--bg);
+  color: var(--ink-3);
+  border: 1px solid var(--line);
+}
+
 .empty-hint {
   font-size: 13px;
   color: var(--ink-3);

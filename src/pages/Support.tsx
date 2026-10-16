@@ -13,6 +13,8 @@ export function Support() {
   const [chatLoading, setChatLoading] = useState(false)
   const [consultMsg, setConsultMsg] = useState<string | null>(null)
 
+  const isLlmReady = Boolean(import.meta.env.VITE_LLM_API_KEY || import.meta.env.VITE_DEEPSEEK_API_KEY)
+
   if (!risk) return <div className="page-loading">加载中…</div>
 
   const meta = LEVEL_META[risk.level as keyof typeof LEVEL_META]
@@ -118,7 +120,12 @@ export function Support() {
       </section>
 
       <section className="card">
-        <div className="sec-title">AI 问一问</div>
+        <div className="sec-title">AI 问一问 {isLlmReady ? <span className="mode-tag live">Kimi K3</span> : <span className="mode-tag local">本地规则</span>}</div>
+        {!isLlmReady && (
+          <div className="ai-hint" style={{ marginBottom: 8 }}>
+            <IcoInfo size={14} /> 当前为本地规则回答。配置 VITE_LLM_API_KEY 后即可启用 Kimi K3。
+          </div>
+        )}
         <div className="ai-box">
           {chat.length === 0 && (
             <div className="ai-hint">
