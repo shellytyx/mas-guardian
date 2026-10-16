@@ -42,6 +42,18 @@ src/
 - OCR 解析器在 `src/lib/ocrParser.ts`，支持中英文化验单，自动转换单位（FIB mg/dL→g/L、TG mg/dL→mmol/L）
 - 风险计算目前在前端 `engine.ts`；若后端出评分，把 `computeRisk` 换成接口调用即可（返回结构见 `types.ts` 的 `RiskResult`）
 
+## AI 问一问（LLM 集成）
+
+已接入 DeepSeek API，数据来源 = 后端知识库 + 网上最新医学研究：
+
+1. **配置 API Key**：复制 `.env.example` 为 `.env`，填入 `VITE_DEEPSEEK_API_KEY`（获取：https://platform.deepseek.com/api_keys）
+2. **预留接口**（`src/lib/api.ts`）：
+   - `knowledgeClient.search()` → 后端知识库 `GET /api/knowledge?query=`（文献、指南、FAQ）
+   - `fetchLatestResearch()` → 最新研究 `GET /api/research/latest`（PubMed、指南更新聚合）
+   - `consultClient.request()` → 线上问诊 `POST /api/consult`（返回医生链接）
+3. **上下文注入**：提问时自动带入当前预警等级、最新化验指标、主观记录、知识库片段
+4. **无 Key 时**：自动回退到本地规则回答（`src/lib/llmAnswer.ts`）
+
 ## 设计原则（评审/开发对照）
 
 1. **引擎只认客观数据**：检验值、体温、照片。主观描述只进灰色备注，代码上不接触风险计算
