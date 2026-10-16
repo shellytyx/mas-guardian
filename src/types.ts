@@ -70,6 +70,8 @@ export interface RiskResult {
 export type Page =
   | { name: 'onboarding' }
   | { name: 'home' }
+  | { name: 'support' }
+  | { name: 'manage' }
   | { name: 'detail' }
   | { name: 'alert' }
   | { name: 'capture' }

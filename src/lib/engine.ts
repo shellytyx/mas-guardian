@@ -260,6 +260,69 @@ export const LEVEL_META: Record<Exclude<RiskLevel, 'gray'>, { label: string; col
   red:    { label: '高危', color: '#dc2626', bg: '#fee2e2' },
 }
 
+export interface Advice {
+  tips: string[]
+  actions: string[]
+  department: string
+  urgency: string
+}
+
+export function adviceFor(level: RiskLevel): Advice {
+  if (level === 'red') {
+    return {
+      urgency: '立即处理',
+      department: '急诊 / 风湿免疫科',
+      tips: [
+        '立即联系主治医生或前往急诊，说明 MAS 风险',
+        '就诊时携带：近 30 天化验单 + 本应用截图',
+        '如孩子出现持续高热、出血点、嗜睡，不要等待',
+      ],
+      actions: [
+        '今天就联系主治医生，说明指标变化',
+        '如孩子出现持续高热、出血点、嗜睡，直接急诊',
+        '就诊带上：近 30 天化验单 + 本页截图',
+      ],
+    }
+  }
+  if (level === 'orange') {
+    return {
+      urgency: '今天内',
+      department: '风湿免疫科门诊',
+      tips: [
+        '今天内联系主治医生，说明指标变化趋势',
+        '每 4-6 小时测量并记录体温',
+        '观察有无新出血点、瘀斑、精神变差',
+      ],
+      actions: [
+        '今天内联系主治医生说明变化趋势',
+        '记录每天体温，观察有无出血点',
+        '就诊带上：近 30 天化验单 + 本页截图',
+      ],
+    }
+  }
+  if (level === 'yellow') {
+    return {
+      urgency: '近几天',
+      department: '风湿免疫科门诊',
+      tips: [
+        '近几天安排复查，对比指标趋势',
+        '继续按计划记录体温和化验单',
+        '如发热加重或出现新症状，提前就诊',
+      ],
+      actions: [
+        '近几天安排复查，对比指标趋势',
+        '继续按计划记录化验单',
+      ],
+    }
+  }
+  return {
+    urgency: '按计划',
+    department: '按医嘱随访',
+    tips: ['按计划随访，有新化验单随时拍进来', '保持记录习惯，趋势比单次结果更重要'],
+    actions: ['按计划随访，有新化验单随时拍进来'],
+  }
+}
+
 export function trendBadge(latest: number | undefined, prev: number | undefined, badDirection: 'up' | 'down'):
   | { text: string; tone: 'bad' | 'good' | 'flat' } {
   if (latest == null || prev == null || prev === 0) return { text: '—', tone: 'flat' }
