@@ -190,18 +190,36 @@ export const llmClient: LLMClient = {
             { role: 'system', content: systemPrompt },
             { role: 'user', content: context.question },
           ],
-          temperature: 0.3,
-          max_tokens: 300,
+          temperature: 1,
+          max_tokens: 1200,
         }),
       })
       if (!res.ok) throw new Error(`LLM ${res.status}`)
       const data = await res.json()
-      return data.choices?.[0]?.message?.content?.trim() ?? '（无回答）'
+      const msg = data.choices?.[0]?.message
+      const raw = msg?.content || msg?.reasoning_content || '（无回答）'
+      return extractChineseAnswer(raw)
     } catch {
       const { generateLocalAnswer } = await import('./llmAnswer')
       return generateLocalAnswer(context)
     }
   },
+}
+
+function extractChineseAnswer(text: string): string {
+  const matches = Array.from(text.matchAll(/[\u4e00-\u9fa5]/g))
+  if (matches.length === 0) return text.trim()
+  const lastCharIdx = matches[matches.length - 1].index!
+  let start = lastCharIdx
+  while (start > 0) {
+    const prevChar = text[start - 1]
+    if (/[\u4e00-\u9fa5\u3000-\u303f\uff00-\uffef\s\n\-：，。！？、；：""''（）【】《》]/.test(prevChar)) {
+      start--
+    } else {
+      break
+    }
+  }
+  return text.slice(start, lastCharIdx + 1).trim()
 }
 
 export const consultClient: ConsultClient = {
